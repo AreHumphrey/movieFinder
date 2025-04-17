@@ -1,31 +1,27 @@
+// ✅ src/components/MovieList.tsx (все фильмы из API)
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { useGetPopularMoviesQuery } from '../features/api/omdbApi'
 
-interface Movie {
-  id: number
-  title: string
-  poster_path: string
-  release_date: string
-  vote_average: number
-}
+const MovieList: React.FC = () => {
+  const { data, isLoading, isError } = useGetPopularMoviesQuery(1)
+  const movies = data?.Search || []
 
-interface Props {
-  movies: Movie[]
-}
+  if (isLoading) return <p>Загрузка фильмов...</p>
+  if (isError) return <p>Ошибка при загрузке фильмов</p>
+  if (!movies.length) return <p>Фильмы не найдены</p>
 
-const MovieList: React.FC<Props> = ({ movies }) => {
   return (
     <div className="movie-grid">
       {movies.map((movie) => (
-        <Link to={`/movie/${movie.id}`} key={movie.id} className="movie-card">
+        <Link to={`/movie/${movie.imdbID}`} key={movie.imdbID} className="movie-card">
           <img
-            src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
-            alt={movie.title}
+            src={movie.Poster !== 'N/A' ? movie.Poster : 'https://via.placeholder.com/300x445?text=No+Image'}
+            alt={movie.Title}
           />
           <div className="movie-info">
-            <h3>{movie.title}</h3>
-            <p>{movie.release_date}</p>
-            <span>⭐ {movie.vote_average}</span>
+            <h3>{movie.Title}</h3>
+            <p>{movie.Year}</p>
           </div>
         </Link>
       ))}
@@ -34,5 +30,4 @@ const MovieList: React.FC<Props> = ({ movies }) => {
 }
 
 export default MovieList
-
-export {} 
+export {}

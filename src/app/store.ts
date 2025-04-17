@@ -1,14 +1,13 @@
+
 import { configureStore } from '@reduxjs/toolkit'
-import { tmdbApi } from '../features/api/tmdbApi'
-import moviesReducer from '../features/api/moviesSlice'
+import { omdbApi } from '../features/api/omdbApi'
 
 export const store = configureStore({
   reducer: {
-    [tmdbApi.reducerPath]: tmdbApi.reducer,
-    movies: moviesReducer,
+    [omdbApi.reducerPath]: omdbApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(tmdbApi.middleware),
+    getDefaultMiddleware().concat(omdbApi.middleware),
 })
 
 export type RootState = ReturnType<typeof store.getState>
