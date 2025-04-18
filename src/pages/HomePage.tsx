@@ -1,4 +1,3 @@
-// ✅ src/pages/HomePage.tsx (с поиском, случайным фильмом, шапкой и подвалом + пагинация)
 import React, { useState, useMemo, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Header from '../components/Header'

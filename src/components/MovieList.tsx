@@ -1,4 +1,3 @@
-// ✅ src/components/MovieList.tsx (все фильмы из API)
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useGetPopularMoviesQuery } from '../features/api/omdbApi'

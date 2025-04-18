@@ -8,9 +8,9 @@ import moviesReducer from '../../features/api/moviesSlice';
 
 jest.mock('../../features/api/omdbApi', () => ({
   omdbApi: {
-    reducerPath: 'omdbApi', // Замокаем reducerPath
-    reducer: jest.fn(() => ({})), // Редюсер возвращает пустой объект
-    middleware: jest.fn(() => (next: any) => (action: any) => next(action)), // Мок мидлвары
+    reducerPath: 'omdbApi', 
+    reducer: jest.fn(() => ({})), 
+    middleware: jest.fn(() => (next: any) => (action: any) => next(action)), 
   },
   useSearchMoviesQuery: jest.fn(),
   useGetPopularMoviesQuery: jest.fn(),
@@ -22,26 +22,24 @@ const mockMovies = [
 ];
 
 test('HomePage загружает фильмы', async () => {
-  // Мокаем данные для useGetPopularMoviesQuery
+
   const mockUseGetPopularMoviesQuery = jest.fn(() => ({
     data: { Response: 'True', Search: mockMovies },
     isLoading: false,
   }));
 
-  // Мокаем данные для useSearchMoviesQuery
   const mockUseSearchMoviesQuery = jest.fn(() => ({
     data: { Response: 'True', Search: mockMovies },
     isLoading: false,
   }));
 
-  // Применяем моки
   require('../../features/api/omdbApi').useGetPopularMoviesQuery.mockImplementation(mockUseGetPopularMoviesQuery);
   require('../../features/api/omdbApi').useSearchMoviesQuery.mockImplementation(mockUseSearchMoviesQuery);
 
   const store = configureStore({
     reducer: {
       [require('../../features/api/omdbApi').omdbApi.reducerPath]: require('../../features/api/omdbApi').omdbApi.reducer,
-      movies: moviesReducer || (() => ({})), // Убедитесь, что moviesReducer существует
+      movies: moviesReducer || (() => ({})), 
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().concat(require('../../features/api/omdbApi').omdbApi.middleware),
@@ -55,12 +53,10 @@ test('HomePage загружает фильмы', async () => {
     </Provider>
   );
 
-  // Ждём, пока текст "Случайный фильм дня" появится в DOM
   await waitFor(() => {
     expect(screen.getByText(/Случайный фильм дня/i)).toBeInTheDocument();
   });
 
-  // Проверяем, что фильмы загружены
   expect(screen.getByText(/The Dark Knight/i)).toBeInTheDocument();
   expect(screen.getByText(/Inception/i)).toBeInTheDocument();
 });

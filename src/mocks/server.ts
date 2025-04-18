@@ -1,9 +1,8 @@
-// src/mocks/server.ts
 import { setupServer } from 'msw/node';
 import { http, HttpResponse } from 'msw';
 
 export const server = setupServer(
-  // Мок для популярных фильмов
+
   http.get('https://www.omdbapi.com/', ({ request }) => {
     const url = new URL(request.url);
     if (url.searchParams.get('s') === 'movie') {
@@ -17,7 +16,6 @@ export const server = setupServer(
       });
     }
 
-    // Мок для поиска фильмов
     if (url.searchParams.get('s') === 'Batman') {
       return HttpResponse.json({
         Search: [
@@ -29,7 +27,6 @@ export const server = setupServer(
       });
     }
 
-    // Мок для получения фильма по ID
     if (url.searchParams.get('i') === 'tt123456') {
       return HttpResponse.json({
         Title: 'Mocked Movie',
@@ -43,7 +40,6 @@ export const server = setupServer(
       });
     }
 
-    // Если запрос не соответствует ни одному из вышеуказанных условий
     return HttpResponse.json({ Response: 'False', Error: 'Movie not found!' });
   })
 );

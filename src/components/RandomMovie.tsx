@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-// ✅ Интерфейс Movie должен соответствовать данным OMDb API
 interface Movie {
   imdbID: string
   Title: string

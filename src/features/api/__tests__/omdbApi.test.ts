@@ -1,4 +1,3 @@
-// src/features/api/__tests__/omdbApi.test.ts
 import { renderHook } from '@testing-library/react';
 import { omdbApi } from '../omdbApi';
 
@@ -58,7 +57,6 @@ describe('omdbApi без Provider', () => {
   };
 
   beforeEach(() => {
-    // Мокаем ответы для хуков
     require('../omdbApi').omdbApi.endpoints.getPopularMovies.useQuery.mockReturnValue(mockPopularMovies);
     require('../omdbApi').omdbApi.endpoints.searchMovies.useQuery.mockReturnValue(mockSearchMovies);
     require('../omdbApi').omdbApi.endpoints.getMovieById.useQuery.mockReturnValue(mockMovieById);

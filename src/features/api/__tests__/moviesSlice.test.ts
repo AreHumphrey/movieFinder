@@ -9,7 +9,6 @@ describe('moviesSlice', () => {
       },
     });
 
-    // Проверяем начальное состояние
     const state = store.getState().movies;
     expect(state.currentPage).toBe(1);
     expect(state.searchQuery).toBe('');
@@ -22,10 +21,8 @@ describe('moviesSlice', () => {
       },
     });
 
-    // Диспатчим действие setPage
     store.dispatch(setPage(2));
 
-    // Проверяем новое состояние
     const state = store.getState().movies;
     expect(state.currentPage).toBe(2);
   });
@@ -37,10 +34,8 @@ describe('moviesSlice', () => {
       },
     });
 
-    // Диспатчим действие setSearchQuery
     store.dispatch(setSearchQuery('Batman'));
 
-    // Проверяем новое состояние
     const state = store.getState().movies;
     expect(state.searchQuery).toBe('Batman');
   });

@@ -1,4 +1,3 @@
-// ✅ src/pages/MovieDetailsPage.tsx (получение данных с OMDb API и улучшенный дизайн)
 import React from 'react'
 import { useParams } from 'react-router-dom'
 import { useGetMovieByIdQuery } from '../features/api/omdbApi'
@@ -9,7 +8,6 @@ const MovieDetailsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>()
   const { data: movie, isLoading, isError } = useGetMovieByIdQuery(id || '')
 
-  // Проверка на отсутствие обязательных полей
   const isMovieInvalid = !movie || !movie.Title || movie.Title === 'N/A'
 
   return (

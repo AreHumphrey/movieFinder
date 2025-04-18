@@ -1,5 +1,3 @@
-// src/mocks/moviesMock.ts
-
 export const moviesMock = [
     {
       id: 1,

@@ -1,4 +1,3 @@
-// ✅ src/features/api/omdbApi.ts
 import { BaseQueryFn, createApi } from '@reduxjs/toolkit/query/react'
 import axios, { AxiosError, AxiosRequestConfig } from 'axios'
 import type { Movie, TMovieDetails } from '../../types/movie'
@@ -6,7 +5,7 @@ import type { Movie, TMovieDetails } from '../../types/movie'
 const axiosInstance = axios.create({
   baseURL: 'https://www.omdbapi.com/',
   params: {
-    apikey: '3d5907e8', // 🔐 Твой API-ключ
+    apikey: '3d5907e8',
   },
   timeout: 5000,
 })

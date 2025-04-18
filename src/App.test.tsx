@@ -6,13 +6,13 @@ import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
 
 jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'), // Импортируем реальные экспорты
-  Routes: ({ children }) => <div>{children}</div>, // Мокаем Routes
-  Route: ({ element }) => element, // Мокаем Route
+  ...jest.requireActual('react-router-dom'),
+  Routes: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+  Route: ({ element }: { element: React.ReactElement }) => element,
 }));
 
 test('renders App with mocked routing', () => {
-  const mockId = '123'; // Пример ID фильма
+  const mockId = '123'; 
   const history = createMemoryHistory();
   history.push(`/movie/${mockId}`);
 
@@ -24,6 +24,5 @@ test('renders App with mocked routing', () => {
     </Provider>
   );
 
-  // Проверяем, что компонент рендерится без ошибок
   expect(document.body).toBeInTheDocument();
 });
