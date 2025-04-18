@@ -4,12 +4,10 @@ import MovieDetailsPage from './pages/MovieDetailsPage'
 
 function App() {
   return (
-    <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/movie/:id" element={<MovieDetailsPage />} />
       </Routes>
-    </Router>
   )
 }
 

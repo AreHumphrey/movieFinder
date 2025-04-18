@@ -45,5 +45,3 @@ const MovieDetailsPage: React.FC = () => {
 }
 
 export default MovieDetailsPage
-
-export {}

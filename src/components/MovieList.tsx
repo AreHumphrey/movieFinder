@@ -30,4 +30,3 @@ const MovieList: React.FC = () => {
 }
 
 export default MovieList
-export {}

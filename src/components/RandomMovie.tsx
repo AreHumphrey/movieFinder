@@ -35,5 +35,3 @@ const RandomMovie: React.FC<Props> = ({ movie }) => {
 }
 
 export default RandomMovie
-
-export {}
