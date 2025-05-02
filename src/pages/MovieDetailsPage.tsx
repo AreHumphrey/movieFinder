@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { useGetMovieByIdQuery } from '../features/api/omdbApi'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
+import CommentSection from '../components/CommentSection'
 
 const MovieDetailsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>()
@@ -35,6 +36,9 @@ const MovieDetailsPage: React.FC = () => {
               <p><strong>Описание:</strong> {movie.Plot}</p>
             </div>
           </div>
+
+          {/* Комментарии */}
+          <CommentSection movieId={id || ''} />
         </div>
       )}
       <Footer />
