@@ -1,9 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { addComment, getComments } from '../api/backend'
+import { useNavigate } from 'react-router-dom'
 
 interface Comment {
   id: number
   text: string
   date: string
+  user?: string
 }
 
 interface Props {
@@ -13,25 +16,43 @@ interface Props {
 const CommentSection: React.FC<Props> = ({ movieId }) => {
   const [comments, setComments] = useState<Comment[]>([])
   const [newComment, setNewComment] = useState('')
+  const [showModal, setShowModal] = useState(false)
 
-  const handleAddComment = (e: React.FormEvent) => {
+  const token = localStorage.getItem('token')
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    getComments(movieId).then((res) => {
+      setComments(res.data)
+    })
+  }, [movieId])
+
+  const handleAddComment = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!newComment.trim()) return
 
-    const comment: Comment = {
-      id: Date.now(),
-      text: newComment.trim(),
-      date: new Date().toLocaleString('ru-RU', {
-        day: '2-digit',
-        month: 'long',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-      }),
+    const validToken =
+      token && token !== 'null' && token !== 'undefined' && token.trim().length > 0
+
+    if (!validToken) {
+      setShowModal(true)
+      return
     }
 
-    setComments((prev) => [comment, ...prev])
-    setNewComment('')
+    if (!newComment.trim()) return
+
+    try {
+      await addComment(movieId, newComment, token!)
+      setNewComment('')
+      const res = await getComments(movieId)
+      setComments(res.data)
+    } catch (err: any) {
+      if (err.response?.status === 401 || err.response?.status === 422) {
+        localStorage.removeItem('token')
+        setShowModal(true)
+      } else {
+        alert('Ошибка при добавлении комментария')
+      }
+    }
   }
 
   return (
@@ -57,10 +78,28 @@ const CommentSection: React.FC<Props> = ({ movieId }) => {
           {comments.map((comment) => (
             <li key={comment.id} className="comment-card">
               <p className="comment-text">{comment.text}</p>
-              <span className="comment-date">{comment.date}</span>
+              <span className="comment-date">{new Date(comment.date).toLocaleString('ru-RU')}</span>
+              {comment.user && (
+                <div style={{ fontSize: '0.85rem', color: '#888' }}>
+                  От: {comment.user}
+                </div>
+              )}
             </li>
           ))}
         </ul>
+      )}
+
+      {showModal && (
+        <div className="modal-backdrop">
+          <div className="modal-window">
+            <button className="modal-close" onClick={() => setShowModal(false)}>×</button>
+            <h3 className="modal-title">Вы не вошли в систему</h3>
+            <p className="modal-text">Чтобы оставить комментарий, пожалуйста, выполните вход.</p>
+            <button className="modal-login-btn" onClick={() => navigate('/login')}>
+              Войти
+            </button>
+          </div>
+        </div>
       )}
     </div>
   )
